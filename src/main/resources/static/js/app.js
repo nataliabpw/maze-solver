@@ -58,7 +58,15 @@ async function uploadMazeFile(){
 
     function displayMaze(data){
         clearErrors();
-        mazeDiv.innerHTML='Maze will be displayed here';
+        mazeDiv.innerHTML="";
+
+        const mazeLines = data.maze;
+
+        for (const line of mazeLines){
+            const row = document.createElement("div");
+            row.textContent = line;
+            mazeDiv.appendChild(row);
+        }
     }
 
 }
