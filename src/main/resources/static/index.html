@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maze Solver</title>
+    <link rel="stylesheet" href="/css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
     <div class="container">
         <div class="row mt-5">
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="card shadow p-4 border-0" style="border-radius:12px;">
+                <div class="card shadow p-4 border-0" style="border-radius:12px; height: 80vh;">
                     <div id="errorContainer"
                         class="alert alert-danger"
                         style="display:none; text-align: center;"
@@ -25,15 +26,18 @@
                     >
                     <button 
                         id="uploadButton"
-                        class="btn btn-primary w-100">
+                        class="btn btn-primary w-100"
+                        style="background-color:#037d42; border-color:#026b38; color:white;">
                         Upload file
                     </button>
 
                 </div>
             </div>
             <div class="col-12 col-md-6 col-lg-8">
-                <div class="card shadow p-4 border-0" style="border-radius:12px;">
-                    <div id="mazeContainer" style="white-space: pre;">Ok</div>
+                <div class="card shadow p-4 border-0" style="border-radius:12px; height: 80vh;">
+                    <div id="mazeContainer" style="
+                        overflow: auto;
+                    "><div id="maze"></div></div>
                 </div>
             </div>
         </div>
