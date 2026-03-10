@@ -37,8 +37,36 @@ public class MazeController {
         MazeReader mazeReader = new MazeReader();
         mazeReader.readFromFile(mazeData, file);
 
+        int columns = mazeData.getColumns();
+        int startNode = getNodeNumber(startX, startY, columns);
+        int endNode = getNodeNumber(endX, endY, columns);
+
+        mazeData.setStart(startNode);
+        mazeData.setEnd(endNode);
+
         MazeSolver mazeSolver = new MazeSolver(mazeData);
-        Path path = new Path(mazeSolver.generatePath(), mazeData);
+        List<Integer> nodesInPath = mazeSolver.generatePath();
+        if (startX % 2 == 0){
+            if (nodesInPath.contains(Integer.valueOf(startNode+1))){
+                nodesInPath.remove(Integer.valueOf(startNode));
+            }
+        }
+        if (startY % 2 == 0){
+            if (nodesInPath.contains(Integer.valueOf(startNode+columns))){
+                nodesInPath.remove(Integer.valueOf(startNode));
+            }
+        }
+        if (endX % 2 == 0){
+            if (nodesInPath.contains(Integer.valueOf(endNode+1))){
+                nodesInPath.remove(Integer.valueOf(endNode));
+        }
+        }
+        if (endY % 2 == 0){
+            if (nodesInPath.contains(Integer.valueOf(endNode+columns))){
+                nodesInPath.remove(Integer.valueOf(endNode));
+            }
+        }
+        Path path = new Path(nodesInPath, mazeData);
         path.changePathCellsType(Cell.PATH);
 
         List<List<Cell>> mazeCells = mazeData.getMazeCells();
@@ -48,5 +76,11 @@ public class MazeController {
         Map<String, Object> response = new HashMap<>();
         response.put("maze", mazeLines);
         return response;
+    }
+
+    private int getNodeNumber(int x, int y, int columns){
+        x = (x-1)/2;
+        y = (y-1)/2;
+        return x + columns * y;
     }
 }

@@ -25,7 +25,12 @@
                         style="display:none; text-align: center;"
                         role="alert">
                     </div>
-                    <h5 class="mt-3 mb-3" >Upload maze</h5>
+                    <div id="messageContainer" 
+                        class="alert alert-warning" 
+                        style="display: none; text-align: center;" 
+                        role="alert">
+                    </div>
+                    <h6 class="mt-3 mb-3" >Upload maze</h6>
                     <input 
                         type="file" 
                         id="mazeFileInput"
@@ -55,10 +60,9 @@
             </div>
             <div class="col-12 col-md-6 col-lg-8">
                 <div class="card shadow p-4 border-0 mb-4" style="border-radius:12px; height: 90vh;">
-                    <div id="messageContainer" class="alert alert-warning" style="display: none; text-align: center;" role="alert"></div>
                     <div id="mazeContainer" style="
                         overflow: auto;
-                    "><div id="maze"></div></div>
+                    "><div id="mazeWrapper"><div id="maze"></div></div></div>
                 </div>
             </div>
         </div>

@@ -17,9 +17,16 @@ const solveButton = document.getElementById('solveButton');
 let mode = "normal";
 
 let startCell = null;
+let startX = -1;
+let startY = -1;
+
 let endCell = null;
+let endX = -1;
+let endY = -1;
 
 uploadButton.addEventListener('click', uploadMazeFile);
+solveButton.addEventListener('click', solveMaze);
+solveButton.disabled = false;
 
 function showErrors(message) {
     errorDiv.textContent = message;
@@ -98,11 +105,20 @@ function displayMaze(data){
     for (let y=0; y<mazeLines.length; y++){
         const line = mazeLines[y];
         for (let x=0; x<line.length; x++){
-            const c = line[x];
+            let c;
+            if (x==startX && y==startY){
+                c = "P";
+            } else if (x==endX && y==endY) {
+                c = "K";
+            } else {
+                c = line[x];
+            }
+            
             const cell = document.createElement("div");
 
             cell.classList.add("cell");
             console.log("displayMaze working");
+
             switch(c){
                 case "X":
                     cell.classList.add("wall");
@@ -171,6 +187,9 @@ function handleCellClick(event){
 
         cell.classList.add('start');
         startCell = cell;
+        startX = x;
+        startY = y;
+
         startInfo.innerText = "Start: ("+x+", "+y+")";
         chooseEndButton.disabled=false;
     }
@@ -186,9 +205,65 @@ function handleCellClick(event){
         
         cell.classList.add('end');
         endCell = cell;
+        endX = x;
+        endY = y;
+
         endInfo.innerText = "End: ("+x+", "+y+")";   
         chooseStartButton.disabled=false;  
     }
 
     mode = "normal";
+}
+
+async function solveMaze(){
+    solveButton.disabled = true;
+
+    if (fileInput.files.length>1){
+        showErrors("You can choose only one file!");
+        return;
+    }
+
+    const file = fileInput.files[0];
+    
+    if (!file) {
+        showErrors("Please select a file first!");
+        return;
+    }
+
+    if (startCell==null){
+        showErrors("Please select a start point!");
+        return;
+    }
+
+    if (endCell==null){
+        showErrors("Please select an end point!");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('startX', startX);
+    formData.append('startY', startY);
+    formData.append('endX', endX);
+    formData.append('endY', endY);
+
+    try{
+        const response = await fetch('/api/maze/solve', {
+            method: "POST",
+            body: formData
+        })
+        ;
+        const data = await response.json();
+        if (!response.ok) {
+            showErrors(data.error || 'Server error');
+            return;
+        }
+        displayMaze(data);
+
+        chooseContainer.style.display = 'block';
+    } catch (error) {
+        showErrors('Network error');
+    } finally {
+        solveButton.disabled = false;
+    }
 }
