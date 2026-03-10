@@ -42,4 +42,30 @@ public class AdjacencyMatrix {
         matrix.put(from, newPaths);
     }
    
+    public int[] getNodesConnectedWitchCurrent(int current, int columns){
+        final boolean defaultPaths[] = {false, false, false, false}; 
+        boolean[] actualPaths =matrix.getOrDefault(current, defaultPaths);
+        ArrayList<Integer> nodes = new ArrayList<>();
+        if(actualPaths[BOTTOM_PATH]){
+            nodes.add(current + columns);
+        }
+        if(actualPaths[LEFT_PATH]){
+            if(current != 0)
+                nodes.add(current - 1);
+        } 
+        if(actualPaths[TOP_PATH]){
+            nodes.add(current - columns);
+        } 
+        if(actualPaths[RIGHT_PATH]){
+            nodes.add(current + 1);
+        }
+        if(!nodes.isEmpty())
+            return nodes.stream().mapToInt(i -> i).toArray();
+        else
+        {
+            int[] emptyArray = {};
+            return emptyArray;
+        }
+            
+    }
 }

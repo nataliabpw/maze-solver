@@ -86,6 +86,10 @@ public class MazeData {
     public void addPathToMatrix(int node, Passage passage){
         adjacencyMatrix.addPath(node, passage);
     }
+
+    public int[] getNeighbours(int current){
+        return adjacencyMatrix.getNodesConnectedWitchCurrent(current, columns);
+    }
     
     private int rows;
     private int columns;

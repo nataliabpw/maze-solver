@@ -10,14 +10,17 @@ import java.util.*;
 @RequestMapping("/api/maze")
 public class MazeController {
 
-    @PostMapping("/upload")
+    @PostMapping("/solve")
     public Map<String, Object> uploadMap (@RequestParam("file") MultipartFile file) throws IOException {
         MazeData mazeData = new MazeData();
         MazeReader mazeReader = new MazeReader();
         mazeReader.readFromFile(mazeData, file);
 
+        MazeSolver mazeSolver = new MazeSolver(mazeData);
+        Path path = new Path(mazeSolver.generatePath(), mazeData);
+        path.changePathCellsType(Cell.PATH);
+
         List<List<Cell>> mazeCells = mazeData.getMazeCells();
-        
         MazeResponseBuilder mazeResponseBuilder = new MazeResponseBuilder();
         List<String> mazeLines = mazeResponseBuilder.buildMazeResponse(mazeCells);
         

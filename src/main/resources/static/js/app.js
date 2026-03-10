@@ -37,7 +37,7 @@ async function uploadMazeFile(){
     formData.append('file', file);
 
     try{
-        const response = await fetch('/api/maze/upload', {
+        const response = await fetch('/api/maze/solve', {
             method: "POST",
             body: formData
         })
