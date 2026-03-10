@@ -44,19 +44,8 @@ public class MazeReader {
                             
                         }
                         case 'X' -> subList.add(Cell.WALL);
-                        case 'P' -> {
-                            int node = columns * ((cells.size()+1)/2 - 1)  + subList.size()/2;
-                            subList.add(Cell.WALL);
-                            mazeData.setStart(node);
-                            nextIsStart = true;
-                            
-                            }
-                        case 'K' -> {
-                            int node = columns * ((cells.size()+1)/2 - 1)  + subList.size()/2 - 1;
-                            mazeData.setEnd(node);
-                            subList.add(Cell.WALL);
-                            subList.set(subList.size()-2, Cell.END);
-                        }
+                        case 'P' -> subList.add(Cell.WALL);
+                        case 'K' -> subList.add(Cell.WALL);
 
                     }
                 }
