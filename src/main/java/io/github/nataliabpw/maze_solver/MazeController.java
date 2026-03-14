@@ -46,26 +46,10 @@ public class MazeController {
 
         MazeSolver mazeSolver = new MazeSolver(mazeData);
         List<Integer> nodesInPath = mazeSolver.generatePath();
-        if (startX % 2 == 0){
-            if (nodesInPath.contains(Integer.valueOf(startNode+1))){
-                nodesInPath.remove(Integer.valueOf(startNode));
-            }
-        }
-        if (startY % 2 == 0){
-            if (nodesInPath.contains(Integer.valueOf(startNode+columns))){
-                nodesInPath.remove(Integer.valueOf(startNode));
-            }
-        }
-        if (endX % 2 == 0){
-            if (nodesInPath.contains(Integer.valueOf(endNode+1))){
-                nodesInPath.remove(Integer.valueOf(endNode));
-        }
-        }
-        if (endY % 2 == 0){
-            if (nodesInPath.contains(Integer.valueOf(endNode+columns))){
-                nodesInPath.remove(Integer.valueOf(endNode));
-            }
-        }
+
+        nodesInPath = adjustPathForNonNodePoint(nodesInPath, startX, startY, startNode, columns);
+        nodesInPath = adjustPathForNonNodePoint(nodesInPath, endX, endY, endNode, columns);
+        
         Path path = new Path(nodesInPath, mazeData);
         path.changePathCellsType(Cell.PATH);
 
@@ -79,8 +63,22 @@ public class MazeController {
     }
 
     private int getNodeNumber(int x, int y, int columns){
-        x = (x-1)/2;
-        y = (y-1)/2;
-        return x + columns * y;
+        int nodeX = (x-1)/2;
+        int nodeY = (y-1)/2;
+        return nodeX + columns * nodeY;
+    }
+
+    private List<Integer> adjustPathForNonNodePoint (List<Integer> nodesInPath, int x, int y, int node, int columns){
+        if (x % 2 == 0){
+            if (nodesInPath.contains(Integer.valueOf(node+1))){
+                nodesInPath.remove(Integer.valueOf(node));
+            }
+        }
+        if (y % 2 == 0){
+            if (nodesInPath.contains(Integer.valueOf(node+columns))){
+                nodesInPath.remove(Integer.valueOf(node));
+            }
+        }
+        return nodesInPath;
     }
 }
