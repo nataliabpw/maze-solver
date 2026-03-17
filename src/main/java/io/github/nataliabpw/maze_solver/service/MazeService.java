@@ -28,8 +28,7 @@ public class MazeService {
     }
 
     public MazeResponse uploadMaze(MultipartFile file) throws IOException{
-        MazeData mazeData = new MazeData();
-        mazeParser.parseFile(mazeData, file);
+        MazeData mazeData = mazeParser.parseFile(file);
 
         List<List<Cell>> mazeCells = mazeData.getMazeCells();
         List<String> mazeLines = mazeResponseBuilder.buildMazeResponse(mazeCells);
@@ -44,8 +43,7 @@ public class MazeService {
         int endX,
         int endY
     ) throws IOException{
-        MazeData mazeData = new MazeData();
-        mazeParser.parseFile(mazeData, file);
+        MazeData mazeData = mazeParser.parseFile(file);
 
         int columns = mazeData.getColumns();
         int startNode = getNodeNumber(startX, startY, columns);

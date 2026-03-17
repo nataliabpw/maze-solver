@@ -16,7 +16,8 @@ import io.github.nataliabpw.maze_solver.model.Passage;
 @Component
 public class MazeParser {
 
-    public void parseFile(MazeData mazeData, MultipartFile file) throws IOException{
+    public MazeData parseFile(MultipartFile file) throws IOException{
+        MazeData mazeData = new MazeData();
         List<List<Cell>> cells = new ArrayList<>();
         mazeData.initAdjacencyMatrix();
         int columns = 0;
@@ -27,47 +28,94 @@ public class MazeParser {
             String line;
 
             while ((line = reader.readLine()) != null){
-                boolean nextIsStart = false;
                 List<Cell> subList = new ArrayList<>();
-                for (Character i: line.toCharArray()){
+                for (char i: line.toCharArray()){
                     switch(i){
                         case ' ' -> {
-                            if(nextIsStart){
-                                subList.add(Cell.START);
-                                nextIsStart = false;
-                            }
-                            else
-                                subList.add(Cell.SPACE);
-                            if(cells.size() % 2 == 1 && subList.size() % 2 == 1){
-                                int node = countNode(columns, cells, subList);
-                                mazeData.addPathToMatrix(node+1, Passage.LEFT);
+                            subList.add(Cell.SPACE);
+                            int cellX = subList.size() - 1;
+                            int cellY = cells.size();
+                            int node = getNodeNumber(columns, cellX, cellY);
+                            if(isHorizontalPassage(cellX, cellY)){
+                                mazeData.addPathToMatrix(node + 1, Passage.LEFT);
                                 mazeData.addPathToMatrix(node, Passage.RIGHT);
                             } 
-                            if (cells.size() % 2 == 0 && subList.size() % 2 == 0 && !cells.isEmpty() && !subList.isEmpty()){
-                                mazeData.addPathToMatrix(countNode(columns, cells, subList), Passage.BOTTOM);
-                                mazeData.addPathToMatrix(countNode(columns, cells, subList)+columns, Passage.TOP);
+                            if (isVerticalPassage(cellX, cellY)){
+                                mazeData.addPathToMatrix(node, Passage.BOTTOM);
+                                mazeData.addPathToMatrix(node+columns, Passage.TOP);
                             }
                             
                         }
                         case 'X' -> subList.add(Cell.WALL);
                         case 'P' -> subList.add(Cell.WALL);
                         case 'K' -> subList.add(Cell.WALL);
-
+                        default -> throw new IllegalArgumentException("Invalid character in maze: " + i);
                     }
                 }
                 if (cells.isEmpty()){
+                    validateFirstRow(subList);
                     columns = subList.size()/2;
+                } else {
+                    validateRow(subList, columns);
                 }
                 cells.add(subList);
             }
+
+            validateLastRow(cells.getLast());
+            validateRowsNumber(cells);
+
             mazeData.setMazeCells(cells);
             mazeData.setColumns((cells.get(0).size() - 1) / 2);
             mazeData.setRows((cells.size() - 1) / 2);
         }
+        return mazeData;
     }    
 
-    private int countNode(int columns, List<List<Cell>> cells, List<Cell> subList) {
-        int node = columns * ((cells.size()+1)/2 - 1)  + subList.size()/2;
-        return node-1;
+    private int getNodeNumber(int columns, int cellX, int cellY) {
+        int rowIndex = (cellY + 1) / 2 - 1;
+        int columnIndex = (cellX + 1) / 2;
+        int nodeNumber = columns * rowIndex  + columnIndex - 1;
+        return nodeNumber;
     }
+
+    private boolean isHorizontalPassage(int cellX, int cellY){
+        return cellY % 2 == 1 && cellX % 2 == 0;
+    }
+
+    private boolean isVerticalPassage(int cellX, int cellY){
+        return cellY % 2 == 0 && cellX % 2 == 1;
+    }
+
+    private void validateFirstRow(List<Cell> firstRow){
+        if (firstRow.stream().anyMatch(cell -> cell!=Cell.WALL)){
+            throw new IllegalArgumentException("First row of maze must contain only wall-cells!");
+        }
+        if (firstRow.size()<3){
+            throw new IllegalArgumentException("Invalid maze size!");
+        }
+    }
+
+    private void validateRow(List<Cell> row, int expectedColumns){
+        Cell firstCell = row.getFirst();
+        Cell lastCell = row.getLast();
+        if (firstCell!=Cell.WALL || lastCell!=Cell.WALL){
+            throw new IllegalArgumentException("The boundaries of the maze must be wall-cells!");
+        }
+        if (row.size()/2!=expectedColumns){
+            throw new IllegalArgumentException("The rows of the maze must be the same length!");
+        }
+    }
+
+    private void validateLastRow(List<Cell> lastRow){
+        if (lastRow.stream().anyMatch(cell -> cell!=Cell.WALL)){
+            throw new IllegalArgumentException("Last row of maze must contain only wall-cells!");
+        }
+    }
+
+    private void validateRowsNumber(List<List<Cell>> cells){
+        if (cells.size() < 3) {
+            throw new IllegalArgumentException("Maze must have at least 3 rows");
+        }
+    }
+
 }

@@ -20,6 +20,7 @@ public class MazeController {
 
     @PostMapping("/upload")
     public MazeResponse uploadMaze (@RequestParam("file") MultipartFile file) throws IOException {
+        validateFile(file);
         MazeResponse mazeResponse = mazeService.uploadMaze(file);
         return mazeResponse;
     }
@@ -32,8 +33,14 @@ public class MazeController {
         @RequestParam("endX") int endX,
         @RequestParam("endY") int endY
     ) throws IOException {
+        validateFile(file);
         MazeResponse mazeResponse = mazeService.solveMaze(file, startX, startY, endX, endY);
         return mazeResponse;
     }
     
+    private void validateFile(MultipartFile file) {
+        if (file == null || file.isEmpty()) {
+            throw new IllegalArgumentException("File must not be empty");
+        }
+    }
 }
