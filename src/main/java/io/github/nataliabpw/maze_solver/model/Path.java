@@ -1,4 +1,4 @@
-package io.github.nataliabpw.maze_solver;
+package io.github.nataliabpw.maze_solver.model;
 
 import java.util.List;
 

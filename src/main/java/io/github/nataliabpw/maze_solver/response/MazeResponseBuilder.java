@@ -1,7 +1,9 @@
-package io.github.nataliabpw.maze_solver;
+package io.github.nataliabpw.maze_solver.response;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.github.nataliabpw.maze_solver.model.Cell;
 
 public class MazeResponseBuilder {
     

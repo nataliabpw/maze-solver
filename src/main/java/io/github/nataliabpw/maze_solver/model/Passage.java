@@ -1,4 +1,4 @@
-package io.github.nataliabpw.maze_solver;
+package io.github.nataliabpw.maze_solver.model;
 
 public enum Passage {
     TOP,

@@ -1,7 +1,14 @@
-package io.github.nataliabpw.maze_solver;
+package io.github.nataliabpw.maze_solver.controller;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import io.github.nataliabpw.maze_solver.model.Cell;
+import io.github.nataliabpw.maze_solver.model.MazeData;
+import io.github.nataliabpw.maze_solver.model.Path;
+import io.github.nataliabpw.maze_solver.parser.MazeReader;
+import io.github.nataliabpw.maze_solver.response.MazeResponseBuilder;
+import io.github.nataliabpw.maze_solver.solver.MazeSolver;
 
 import java.io.IOException;
 import java.util.*;

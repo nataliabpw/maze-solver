@@ -1,4 +1,4 @@
-package io.github.nataliabpw.maze_solver;
+package io.github.nataliabpw.maze_solver.parser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,6 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
+
+import io.github.nataliabpw.maze_solver.model.Cell;
+import io.github.nataliabpw.maze_solver.model.MazeData;
+import io.github.nataliabpw.maze_solver.model.Passage;
 
 public class MazeReader {
 

@@ -1,8 +1,10 @@
-package io.github.nataliabpw.maze_solver;
+package io.github.nataliabpw.maze_solver.solver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import io.github.nataliabpw.maze_solver.model.MazeData;
 
 public class MazeSolver {
     private final int [] predecessors;
