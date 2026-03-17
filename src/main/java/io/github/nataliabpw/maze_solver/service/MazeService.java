@@ -1,9 +1,6 @@
 package io.github.nataliabpw.maze_solver.service;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,7 +24,7 @@ public class MazeService {
         this.mazeResponseBuilder = mazeResponseBuilder;
     }
 
-    public MazeResponse uploadMaze(MultipartFile file) throws IOException{
+    public MazeResponse uploadMaze(MultipartFile file){
         MazeData mazeData = mazeParser.parseFile(file);
 
         List<List<Cell>> mazeCells = mazeData.getMazeCells();
@@ -42,7 +39,7 @@ public class MazeService {
         int startY,
         int endX,
         int endY
-    ) throws IOException{
+    ){
         MazeData mazeData = mazeParser.parseFile(file);
 
         int columns = mazeData.getColumns();

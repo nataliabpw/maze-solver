@@ -16,7 +16,7 @@ import io.github.nataliabpw.maze_solver.model.Passage;
 @Component
 public class MazeParser {
 
-    public MazeData parseFile(MultipartFile file) throws IOException{
+    public MazeData parseFile(MultipartFile file){
         MazeData mazeData = new MazeData();
         List<List<Cell>> cells = new ArrayList<>();
         mazeData.initAdjacencyMatrix();
@@ -67,6 +67,8 @@ public class MazeParser {
             mazeData.setMazeCells(cells);
             mazeData.setColumns((cells.get(0).size() - 1) / 2);
             mazeData.setRows((cells.size() - 1) / 2);
+        } catch (IOException e){
+            throw new IllegalArgumentException("Failed to read maze file");
         }
         return mazeData;
     }    
