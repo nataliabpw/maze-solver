@@ -2,11 +2,11 @@ package io.github.nataliabpw.maze_solver.model;
 
 import java.util.List;
 
-public class Path {
+public class MazePath {
     private final List<Integer> path;
     private final MazeData mazeData;
     
-    public Path(List<Integer> path, MazeData mazeData){
+    public MazePath(List<Integer> path, MazeData mazeData){
         this.path = path;
         this.mazeData = mazeData;
     }

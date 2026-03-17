@@ -12,9 +12,9 @@ import io.github.nataliabpw.maze_solver.model.Cell;
 import io.github.nataliabpw.maze_solver.model.MazeData;
 import io.github.nataliabpw.maze_solver.model.Passage;
 
-public class MazeReader {
+public class MazeParser {
 
-    public void readFromFile(MazeData mazeData, MultipartFile file) throws IOException{
+    public void parseFile(MazeData mazeData, MultipartFile file) throws IOException{
         List<List<Cell>> cells = new ArrayList<>();
         mazeData.initAdjacencyMatrix();
         int columns = 0;

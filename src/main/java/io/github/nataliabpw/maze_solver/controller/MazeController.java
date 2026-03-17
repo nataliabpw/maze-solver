@@ -5,8 +5,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import io.github.nataliabpw.maze_solver.model.Cell;
 import io.github.nataliabpw.maze_solver.model.MazeData;
-import io.github.nataliabpw.maze_solver.model.Path;
-import io.github.nataliabpw.maze_solver.parser.MazeReader;
+import io.github.nataliabpw.maze_solver.model.MazePath;
+import io.github.nataliabpw.maze_solver.parser.MazeParser;
 import io.github.nataliabpw.maze_solver.response.MazeResponseBuilder;
 import io.github.nataliabpw.maze_solver.solver.MazeSolver;
 
@@ -20,8 +20,8 @@ public class MazeController {
     @PostMapping("/upload")
     public Map<String, Object> uploadMaze (@RequestParam("file") MultipartFile file) throws IOException {
         MazeData mazeData = new MazeData();
-        MazeReader mazeReader = new MazeReader();
-        mazeReader.readFromFile(mazeData, file);
+        MazeParser mazeReader = new MazeParser();
+        mazeReader.parseFile(mazeData, file);
 
         List<List<Cell>> mazeCells = mazeData.getMazeCells();
         MazeResponseBuilder mazeResponseBuilder = new MazeResponseBuilder();
@@ -41,8 +41,8 @@ public class MazeController {
         @RequestParam("endY") int endY
     ) throws IOException {
         MazeData mazeData = new MazeData();
-        MazeReader mazeReader = new MazeReader();
-        mazeReader.readFromFile(mazeData, file);
+        MazeParser mazeReader = new MazeParser();
+        mazeReader.parseFile(mazeData, file);
 
         int columns = mazeData.getColumns();
         int startNode = getNodeNumber(startX, startY, columns);
@@ -57,7 +57,7 @@ public class MazeController {
         nodesInPath = adjustPathForNonNodePoint(nodesInPath, startX, startY, startNode, columns);
         nodesInPath = adjustPathForNonNodePoint(nodesInPath, endX, endY, endNode, columns);
         
-        Path path = new Path(nodesInPath, mazeData);
+        MazePath path = new MazePath(nodesInPath, mazeData);
         path.changePathCellsType(Cell.PATH);
 
         List<List<Cell>> mazeCells = mazeData.getMazeCells();
