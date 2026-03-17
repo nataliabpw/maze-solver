@@ -12,6 +12,7 @@ import io.github.nataliabpw.maze_solver.model.Cell;
 import io.github.nataliabpw.maze_solver.model.MazeData;
 import io.github.nataliabpw.maze_solver.model.MazePath;
 import io.github.nataliabpw.maze_solver.parser.MazeParser;
+import io.github.nataliabpw.maze_solver.response.MazeResponse;
 import io.github.nataliabpw.maze_solver.response.MazeResponseBuilder;
 import io.github.nataliabpw.maze_solver.solver.MazeSolver;
 
@@ -26,19 +27,17 @@ public class MazeService {
         this.mazeResponseBuilder = mazeResponseBuilder;
     }
 
-    public Map<String, Object> uploadMaze(MultipartFile file) throws IOException{
+    public MazeResponse uploadMaze(MultipartFile file) throws IOException{
         MazeData mazeData = new MazeData();
         mazeParser.parseFile(mazeData, file);
 
         List<List<Cell>> mazeCells = mazeData.getMazeCells();
         List<String> mazeLines = mazeResponseBuilder.buildMazeResponse(mazeCells);
         
-        Map<String, Object> response = new HashMap<>();
-        response.put("maze", mazeLines);
-        return response;
+        return new MazeResponse(mazeLines);
     }
 
-    public Map<String, Object> solveMaze (
+    public MazeResponse solveMaze (
         MultipartFile file,
         int startX,
         int startY,
@@ -67,9 +66,7 @@ public class MazeService {
         List<List<Cell>> mazeCells = mazeData.getMazeCells();
         List<String> mazeLines = mazeResponseBuilder.buildMazeResponse(mazeCells);
         
-        Map<String, Object> response = new HashMap<>();
-        response.put("maze", mazeLines);
-        return response;
+        return new MazeResponse(mazeLines);
     }
 
     private int getNodeNumber(int x, int y, int columns){
