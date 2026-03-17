@@ -3,8 +3,11 @@ package io.github.nataliabpw.maze_solver.response;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import io.github.nataliabpw.maze_solver.model.Cell;
 
+@Component
 public class MazeResponseBuilder {
     
     public List<String> buildMazeResponse(List<List<Cell>> mazeCells){

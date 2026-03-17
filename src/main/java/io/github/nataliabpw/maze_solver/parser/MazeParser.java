@@ -6,12 +6,14 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import io.github.nataliabpw.maze_solver.model.Cell;
 import io.github.nataliabpw.maze_solver.model.MazeData;
 import io.github.nataliabpw.maze_solver.model.Passage;
 
+@Component
 public class MazeParser {
 
     public void parseFile(MazeData mazeData, MultipartFile file) throws IOException{
