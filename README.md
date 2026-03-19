@@ -26,6 +26,26 @@ The application uses the Breadth-First Search (BFS) algorithm to find the shorte
 - Breadth-First Search (BFS)
 - Maven
 
+## Architecture
+
+The application follows a layered architecture that separates responsibilities between components:
+
+- **Controller layer** – handles HTTP requests, validates input data, and returns structured responses using DTOs (MazeResponse)
+- **Service layer** – contains application logic and orchestrates interactions between components
+- **Parser** – reads and validates the uploaded maze file, transforming it into an internal representation
+- **Solver** – computes the path between given points using graph-based logic
+- **Model** – represents the maze structure, cells, and computed path
+
+### Spring Boot features
+
+The project uses core Spring Boot concepts:
+
+- **Dependency Injection (constructor-based)** to manage object creation and dependencies
+- **@RestController, @Service, @Component** annotations to define application components
+- **Stateless components** managed by Spring as **singletons**
+- **Global exception handling** to provide consistent API error responses
+
+
 ## API Endpoints
 
 ### Upload Maze
