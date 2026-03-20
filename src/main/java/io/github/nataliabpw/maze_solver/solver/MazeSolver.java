@@ -1,8 +1,10 @@
 package io.github.nataliabpw.maze_solver.solver;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Queue;
 
 import org.springframework.stereotype.Component;
 
@@ -32,11 +34,11 @@ public class MazeSolver {
     }
     
     private void bfs(MazeData mazeData, int[] predecessors, int start, int end){
-        List<Integer> queue = new ArrayList<>();
+        Queue<Integer> queue = new ArrayDeque<>();
         int curr = end;
         queue.add(curr);
-        outer: while (!queue.isEmpty()){
-            curr = queue.get(0);
+        while (!queue.isEmpty()){
+            curr = queue.poll();
             int[] neighbours = mazeData.getNeighbours(curr);
             for (int n : neighbours){
                 if (predecessors[n] == -1){
@@ -44,10 +46,9 @@ public class MazeSolver {
                     queue.add(n);
                 }
                 if (n==start){
-                        break outer;
+                    return;
                 }
             }
-            queue.remove(0);
         }
     }
     
