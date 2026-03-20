@@ -1,18 +1,24 @@
 package io.github.nataliabpw.maze_solver.exception;
 
-import java.util.Map;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import io.github.nataliabpw.maze_solver.response.ErrorResponse;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String,String>> handleIllegalArgument(IllegalArgumentException ex){
+    public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex){
         return ResponseEntity.badRequest()
-        .body(Map.of("error", ex.getMessage()));
+        .body(new ErrorResponse(ex.getMessage()));
     }
     
+    @ExceptionHandler(MazePathNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleMazePathNotFound(MazePathNotFoundException ex){
+        return ResponseEntity.status(404)
+        .body(new ErrorResponse(ex.getMessage()));
+    }
+
 }

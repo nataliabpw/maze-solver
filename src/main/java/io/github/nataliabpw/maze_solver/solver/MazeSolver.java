@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import io.github.nataliabpw.maze_solver.exception.MazePathNotFoundException;
 import io.github.nataliabpw.maze_solver.model.MazeData;
 
 @Component
@@ -20,6 +21,10 @@ public class MazeSolver {
         int end = mazeData.getEnd();
 
         bfs(mazeData, predecessors, start, end);
+
+        if (predecessors[start]==-1){
+            throw new MazePathNotFoundException("No path found between given points");
+        }
 
         List<Integer> path = buildPath(predecessors, start, end);
 
