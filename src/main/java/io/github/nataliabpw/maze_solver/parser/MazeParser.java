@@ -17,16 +17,25 @@ import io.github.nataliabpw.maze_solver.model.Passage;
 public class MazeParser {
 
     public MazeData parseFile(MultipartFile file){
-        MazeData mazeData = new MazeData();
-        List<List<Cell>> cells = new ArrayList<>();
-        mazeData.initAdjacencyMatrix();
-        int columns = 0;
-
         try (BufferedReader reader = new BufferedReader(
             new InputStreamReader(file.getInputStream()))){
 
+            return parse(reader);
+
+        } catch (IOException e){
+            throw new IllegalArgumentException("Failed to read maze content");
+        }
+    }    
+
+    public MazeData parse(BufferedReader reader) throws IOException{
+        MazeData mazeData = new MazeData();
+            List<List<Cell>> cells = new ArrayList<>();
+            mazeData.initAdjacencyMatrix();
+            int columns = 0;
+
             String line;
 
+            
             while ((line = reader.readLine()) != null){
                 List<Cell> subList = new ArrayList<>();
                 for (char i: line.toCharArray()){
@@ -60,6 +69,9 @@ public class MazeParser {
                 }
                 cells.add(subList);
             }
+            if (cells.isEmpty()) {
+                throw new IllegalArgumentException("Maze cannot be empty");
+            }
 
             validateLastRow(cells.getLast());
             validateRowsNumber(cells);
@@ -67,11 +79,8 @@ public class MazeParser {
             mazeData.setMazeCells(cells);
             mazeData.setColumns((cells.get(0).size() - 1) / 2);
             mazeData.setRows((cells.size() - 1) / 2);
-        } catch (IOException e){
-            throw new IllegalArgumentException("Failed to read maze file");
-        }
-        return mazeData;
-    }    
+            return mazeData;
+    }
 
     private int getNodeNumber(int columns, int cellX, int cellY) {
         int rowIndex = (cellY + 1) / 2 - 1;
