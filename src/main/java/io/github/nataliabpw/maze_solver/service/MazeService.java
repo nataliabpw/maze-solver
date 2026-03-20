@@ -17,10 +17,12 @@ import io.github.nataliabpw.maze_solver.solver.MazeSolver;
 public class MazeService {
 
     private final MazeParser mazeParser;
+    private final MazeSolver mazeSolver;
     private final MazeResponseBuilder mazeResponseBuilder;
 
-    public MazeService(MazeParser mazeParser, MazeResponseBuilder mazeResponseBuilder){
+    public MazeService(MazeParser mazeParser, MazeSolver mazeSolver, MazeResponseBuilder mazeResponseBuilder){
         this.mazeParser = mazeParser;
+        this.mazeSolver = mazeSolver;
         this.mazeResponseBuilder = mazeResponseBuilder;
     }
 
@@ -49,9 +51,7 @@ public class MazeService {
         mazeData.setStart(startNode);
         mazeData.setEnd(endNode);
 
-        MazeSolver mazeSolver = new MazeSolver(mazeData);
-        List<Integer> nodesInPath = mazeSolver.generatePath();
-
+        List<Integer> nodesInPath = mazeSolver.generatePath(mazeData);
         nodesInPath = adjustPathForNonNodePoint(nodesInPath, startX, startY, startNode, columns);
         nodesInPath = adjustPathForNonNodePoint(nodesInPath, endX, endY, endNode, columns);
         
