@@ -220,6 +220,7 @@ async function solveMaze(){
 
     if (fileInput.files.length>1){
         showErrors("You can choose only one file!");
+        solveButton.disabled = false;
         return;
     }
 
@@ -227,16 +228,19 @@ async function solveMaze(){
     
     if (!file) {
         showErrors("Please select a file first!");
+        solveButton.disabled = false;
         return;
     }
 
     if (startCell==null){
         showErrors("Please select a start point!");
+        solveButton.disabled = false;
         return;
     }
 
     if (endCell==null){
         showErrors("Please select an end point!");
+        solveButton.disabled = false;
         return;
     }
 
